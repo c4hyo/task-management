@@ -105,7 +105,8 @@ class TodoView extends GetView<TodoController> {
                   onTap: () async {
                     final dates = await showDatePicker(
                       context: context,
-                      initialDate: DateTime.now(),
+                      initialDate:
+                          DateTime.parse(controller.task.value.startDate!),
                       firstDate:
                           DateTime.parse(controller.task.value.startDate!),
                       lastDate: DateTime.parse(controller.task.value.endDate!),
@@ -140,7 +141,8 @@ class TodoView extends GetView<TodoController> {
                   onTap: () async {
                     final dates = await showDatePicker(
                       context: context,
-                      initialDate: DateTime.now(),
+                      initialDate:
+                          DateTime.parse(controller.task.value.startDate!),
                       firstDate:
                           DateTime.parse(controller.task.value.startDate!),
                       lastDate: DateTime.parse(controller.task.value.endDate!),

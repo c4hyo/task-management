@@ -25,17 +25,14 @@ class DetailTaskView extends GetView<TaskController> {
     return Obx(
       () => Scaffold(
         floatingActionButton: Visibility(
-          visible: controller.task.value.ownerId == controller.profileTask!.uid,
-          child: Visibility(
-            visible: controller.isTask.isTrue,
-            child: FloatingActionButton(
-              onPressed: () {
-                Get.toNamed(Routes.TODO,
-                    arguments: {"task": controller.task.value});
-              },
-              child: Icon(
-                Icons.add_comment_outlined,
-              ),
+          visible: controller.isTask.isTrue,
+          child: FloatingActionButton(
+            onPressed: () {
+              Get.toNamed(Routes.TODO,
+                  arguments: {"task": controller.task.value});
+            },
+            child: Icon(
+              Icons.add_comment_outlined,
             ),
           ),
         ),
