@@ -151,96 +151,102 @@ class NotesView extends GetView<TodoController> {
           ),
           color: notes.isFinished! ? greenUi : yellowUi,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "${notes.description}",
+              maxLines: 100,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  height: 10,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      profileModel.name!.capitalize!,
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                    Text(
+                      date(dates),
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  notes.description!,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                Visibility(
+                  visible: controller.todo.value.editor!.contains(myId),
+                  child: Visibility(
+                    visible: !notes.isFinished!,
+                    child: IconButton(
+                      onPressed: () async {
+                        Get.bottomSheet(
+                          Container(
+                            color: lightBackgroud,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                ListTile(
+                                  title: Text("Finish"),
+                                  onTap: () async {
+                                    await taskCollection
+                                        .doc(controller.task.value.taskId)
+                                        .collection("todo")
+                                        .doc(controller.todo.value.id)
+                                        .collection("note")
+                                        .doc(notes.noteId)
+                                        .update(
+                                      {"is_finished": true},
+                                    );
+                                    Get.back();
+                                  },
+                                ),
+                                ListTile(
+                                  title: Text("Delete"),
+                                  onTap: () async {
+                                    await taskCollection
+                                        .doc(controller.task.value.taskId)
+                                        .collection("todo")
+                                        .doc(controller.todo.value.id)
+                                        .collection("note")
+                                        .doc(notes.noteId)
+                                        .delete();
+                                    Get.back();
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.settings,
+                      ),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  profileModel.name!.capitalize!,
-                  style: TextStyle(
-                    fontSize: 12,
-                  ),
-                ),
-                Text(
-                  date(dates),
-                  style: TextStyle(
-                    fontSize: 12,
-                  ),
-                ),
+                )
               ],
             ),
-            Visibility(
-              visible: controller.todo.value.editor!.contains(myId),
-              child: Visibility(
-                visible: !notes.isFinished!,
-                child: IconButton(
-                  onPressed: () async {
-                    Get.bottomSheet(
-                      Container(
-                        color: lightBackgroud,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ListTile(
-                              title: Text("Finish"),
-                              onTap: () async {
-                                await taskCollection
-                                    .doc(controller.task.value.taskId)
-                                    .collection("todo")
-                                    .doc(controller.todo.value.id)
-                                    .collection("note")
-                                    .doc(notes.noteId)
-                                    .update(
-                                  {"is_finished": true},
-                                );
-                                Get.back();
-                              },
-                            ),
-                            ListTile(
-                              title: Text("Delete"),
-                              onTap: () async {
-                                await taskCollection
-                                    .doc(controller.task.value.taskId)
-                                    .collection("todo")
-                                    .doc(controller.todo.value.id)
-                                    .collection("note")
-                                    .doc(notes.noteId)
-                                    .delete();
-                                Get.back();
-                              },
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.more_horiz_rounded,
-                  ),
-                ),
-              ),
-            )
           ],
         ),
       ),
