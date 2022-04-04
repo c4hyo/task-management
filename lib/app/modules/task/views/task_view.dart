@@ -80,64 +80,64 @@ class TaskView extends GetView<TaskController> {
                   ),
                 ),
               ),
-              ListTile(
-                title: Text(
-                  "Category",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: Card(
-                  color: lightBackgroud,
-                  elevation: 10,
-                  shadowColor: secondaryColorAccent,
-                  child: TextFormField(
-                    onTap: () {
-                      Get.bottomSheet(
-                        Container(
-                          padding: EdgeInsets.fromLTRB(20, 25, 20, 20),
-                          color: Get.theme.scaffoldBackgroundColor,
-                          child: FutureBuilder<QuerySnapshot>(
-                            future:
-                                categoryCollection.orderBy("category").get(),
-                            builder: (_, snapshot) {
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (_, i) {
-                                  DocumentSnapshot doc = snapshot.data!.docs[i];
-                                  CategoryModel cm = CategoryModel.doc(doc);
-                                  return ListTile(
-                                    onTap: () {
-                                      category.text = cm.category!;
-                                      Get.back();
-                                    },
-                                    title: Text("${cm.category}".capitalize!),
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                    readOnly: true,
-                    controller: category,
-                    style: TextStyle(
-                      color: primaryColor,
-                    ),
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 10, right: 10),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ),
+              // ListTile(
+              //   title: Text(
+              //     "Category",
+              //     style: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              //   subtitle: Card(
+              //     color: lightBackgroud,
+              //     elevation: 10,
+              //     shadowColor: secondaryColorAccent,
+              //     child: TextFormField(
+              //       onTap: () {
+              //         Get.bottomSheet(
+              //           Container(
+              //             padding: EdgeInsets.fromLTRB(20, 25, 20, 20),
+              //             color: Get.theme.scaffoldBackgroundColor,
+              //             child: FutureBuilder<QuerySnapshot>(
+              //               future:
+              //                   categoryCollection.orderBy("category").get(),
+              //               builder: (_, snapshot) {
+              //                 if (!snapshot.hasData) {
+              //                   return Center(
+              //                     child: CircularProgressIndicator(),
+              //                   );
+              //                 }
+              //                 return ListView.builder(
+              //                   shrinkWrap: true,
+              //                   itemCount: snapshot.data!.docs.length,
+              //                   itemBuilder: (_, i) {
+              //                     DocumentSnapshot doc = snapshot.data!.docs[i];
+              //                     CategoryModel cm = CategoryModel.doc(doc);
+              //                     return ListTile(
+              //                       onTap: () {
+              //                         category.text = cm.category!;
+              //                         Get.back();
+              //                       },
+              //                       title: Text("${cm.category}".capitalize!),
+              //                     );
+              //                   },
+              //                 );
+              //               },
+              //             ),
+              //           ),
+              //         );
+              //       },
+              //       readOnly: true,
+              //       controller: category,
+              //       style: TextStyle(
+              //         color: primaryColor,
+              //       ),
+              //       decoration: InputDecoration(
+              //         contentPadding: EdgeInsets.only(left: 10, right: 10),
+              //         border: InputBorder.none,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               ListTile(
                 title: Text(
                   "Start Date",

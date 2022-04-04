@@ -58,6 +58,7 @@ Widget profilePicture(String? imageUrl, {double? radius}) {
       ? CircleAvatar(
           radius: radius ?? 20,
           backgroundColor: primaryColor,
+          child: Icon(Icons.person),
         )
       : CircleAvatar(
           radius: radius ?? 20,

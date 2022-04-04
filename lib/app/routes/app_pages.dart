@@ -4,6 +4,8 @@ import 'package:yo_task_managements/app/modules/auth/bindings/auth_binding.dart'
 import 'package:yo_task_managements/app/modules/auth/views/auth_view.dart';
 import 'package:yo_task_managements/app/modules/home/bindings/home_binding.dart';
 import 'package:yo_task_managements/app/modules/home/views/home_view.dart';
+import 'package:yo_task_managements/app/modules/note/bindings/note_binding.dart';
+import 'package:yo_task_managements/app/modules/note/views/note_view.dart';
 import 'package:yo_task_managements/app/modules/profile/bindings/profile_binding.dart';
 import 'package:yo_task_managements/app/modules/profile/views/profile_view.dart';
 import 'package:yo_task_managements/app/modules/search/bindings/search_binding.dart';
@@ -62,6 +64,11 @@ class AppPages {
       name: _Paths.PROFILE,
       page: () => ProfileView(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTE,
+      page: () => NoteView(),
+      binding: NoteBinding(),
     ),
   ];
 }

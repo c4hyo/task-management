@@ -51,7 +51,7 @@ class UpdateTaskView extends GetView<TaskController> {
                 val.category = category.text;
                 val.title = title.text;
                 val.description = description.text;
-                val.endDate = controller.tempStartDate.value;
+                val.endDate = controller.tempEndDate.value;
                 val.startDate = controller.tempStartDate.value;
                 val.type = type.text;
               });
@@ -90,63 +90,63 @@ class UpdateTaskView extends GetView<TaskController> {
               ),
             ),
           ),
-          ListTile(
-            title: Text(
-              "Category",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            subtitle: Card(
-              color: lightBackgroud,
-              elevation: 10,
-              shadowColor: secondaryColorAccent,
-              child: TextFormField(
-                onTap: () {
-                  Get.bottomSheet(
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20, 25, 20, 20),
-                      color: Get.theme.scaffoldBackgroundColor,
-                      child: FutureBuilder<QuerySnapshot>(
-                        future: categoryCollection.orderBy("category").get(),
-                        builder: (_, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (_, i) {
-                              DocumentSnapshot doc = snapshot.data!.docs[i];
-                              CategoryModel cm = CategoryModel.doc(doc);
-                              return ListTile(
-                                onTap: () {
-                                  category.text = cm.category!;
-                                  Get.back();
-                                },
-                                title: Text("${cm.category}".capitalize!),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  );
-                },
-                readOnly: true,
-                controller: category,
-                style: TextStyle(
-                  color: primaryColor,
-                ),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ),
+          // ListTile(
+          //   title: Text(
+          //     "Category",
+          //     style: TextStyle(
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          //   subtitle: Card(
+          //     color: lightBackgroud,
+          //     elevation: 10,
+          //     shadowColor: secondaryColorAccent,
+          //     child: TextFormField(
+          //       onTap: () {
+          //         Get.bottomSheet(
+          //           Container(
+          //             padding: EdgeInsets.fromLTRB(20, 25, 20, 20),
+          //             color: Get.theme.scaffoldBackgroundColor,
+          //             child: FutureBuilder<QuerySnapshot>(
+          //               future: categoryCollection.orderBy("category").get(),
+          //               builder: (_, snapshot) {
+          //                 if (!snapshot.hasData) {
+          //                   return Center(
+          //                     child: CircularProgressIndicator(),
+          //                   );
+          //                 }
+          //                 return ListView.builder(
+          //                   shrinkWrap: true,
+          //                   itemCount: snapshot.data!.docs.length,
+          //                   itemBuilder: (_, i) {
+          //                     DocumentSnapshot doc = snapshot.data!.docs[i];
+          //                     CategoryModel cm = CategoryModel.doc(doc);
+          //                     return ListTile(
+          //                       onTap: () {
+          //                         category.text = cm.category!;
+          //                         Get.back();
+          //                       },
+          //                       title: Text("${cm.category}".capitalize!),
+          //                     );
+          //                   },
+          //                 );
+          //               },
+          //             ),
+          //           ),
+          //         );
+          //       },
+          //       readOnly: true,
+          //       controller: category,
+          //       style: TextStyle(
+          //         color: primaryColor,
+          //       ),
+          //       decoration: InputDecoration(
+          //         contentPadding: EdgeInsets.only(left: 10, right: 10),
+          //         border: InputBorder.none,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           ListTile(
             title: Text(
               "Start Date",
@@ -166,7 +166,9 @@ class UpdateTaskView extends GetView<TaskController> {
                     firstDate: DateTime(DateTime.now().year),
                     lastDate: DateTime(DateTime.now().year + 100),
                   );
-                  startDate.text = dates!.toIso8601String();
+                  // startDate.text = dates!.toIso8601String();
+                  startDate.text = date(dates!.toIso8601String());
+                  controller.tempStartDate.value = dates.toIso8601String();
                 },
                 controller: startDate,
                 readOnly: true,
@@ -195,11 +197,13 @@ class UpdateTaskView extends GetView<TaskController> {
                 onTap: () async {
                   final dates = await showDatePicker(
                     context: context,
-                    initialDate: DateTime.now(),
+                    initialDate: DateTime.parse(controller.task.value.endDate!),
                     firstDate: DateTime(DateTime.now().year),
                     lastDate: DateTime(DateTime.now().year + 100),
                   );
-                  endDate.text = dates!.toIso8601String();
+                  // endDate.text = dates!.toIso8601String();
+                  endDate.text = date(dates!.toIso8601String());
+                  controller.tempEndDate.value = dates.toIso8601String();
                 },
                 controller: endDate,
                 readOnly: true,

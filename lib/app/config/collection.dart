@@ -9,3 +9,5 @@ CollectionReference taskCollection = FirebaseFirestore.instance
     .collection("task"); // memanggil collection bernama "task"
 CollectionReference categoryCollection = FirebaseFirestore.instance
     .collection("category"); // memanggil collection bernama "category"
+CollectionReference notesCollection = FirebaseFirestore.instance
+    .collection("notes"); // memanggil collection bernama "category"

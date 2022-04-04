@@ -8,6 +8,8 @@ import '../../../config/theme.dart';
 class HomeController extends GetxController {
   final timeline = <Appointment>[].obs;
   final myId = Get.find<AppController>().profileModel.uid;
+  final notesCount = 0.obs;
+  final taskCount = 0.obs;
 
   RxList<Appointment> getTimeline(String uid) {
     taskCollection.where("member", arrayContains: uid).get().then((value) {
@@ -25,8 +27,22 @@ class HomeController extends GetxController {
         );
       });
     });
-    print("new data");
+
     return timeline;
+  }
+
+  Stream<int> getCountNotes(String uid) {
+    return notesCollection
+        .where("ownerId", isEqualTo: uid)
+        .snapshots()
+        .map((event) => event.docs.length);
+  }
+
+  Stream<int> getTaskCount(String uid) {
+    return taskCollection
+        .where("member", arrayContains: myId)
+        .snapshots()
+        .map((event) => event.docs.length);
   }
 
   // @override

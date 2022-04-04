@@ -14,8 +14,8 @@ class ProfileView extends GetView<ProfileController> {
   final loginProfile = Get.find<AppController>().profileModel;
   @override
   Widget build(BuildContext context) {
-    controller.friendCount
-        .bindStream(controller.getCountFriend(controller.profile.value.uid));
+    controller.notesCount
+        .bindStream(controller.getCountNotes(controller.profile.value.uid!));
     controller.taskTeamCount
         .bindStream(controller.getTaskTeam(controller.profile.value.uid));
     controller.taskPersonalCount
@@ -111,9 +111,9 @@ class ProfileView extends GetView<ProfileController> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text("Friends"),
+                        Text("Notes"),
                         Text(
-                          "${controller.friendCount}",
+                          "${controller.notesCount.value}",
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
@@ -139,11 +139,14 @@ class ProfileView extends GetView<ProfileController> {
               // ),
               Container(
                 child: (controller.profile.value.uid! != loginProfile.uid)
-                    ? ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Add Friend",
-                          style: TextStyle(),
+                    ? Visibility(
+                        visible: false,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Add Friend",
+                            style: TextStyle(),
+                          ),
                         ),
                       )
                     : ElevatedButton(

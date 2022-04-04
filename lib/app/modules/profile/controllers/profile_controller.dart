@@ -8,6 +8,7 @@ class ProfileController extends GetxController {
   final friendCount = 0.obs;
   final taskTeamCount = 0.obs;
   final taskPersonalCount = 0.obs;
+  final notesCount = 0.obs;
 
   final image = "".obs;
   final imageUrl = "".obs;
@@ -63,6 +64,13 @@ class ProfileController extends GetxController {
     return taskCollection
         .where("member", arrayContains: myId)
         .where("type", isEqualTo: "personal")
+        .snapshots()
+        .map((event) => event.docs.length);
+  }
+
+  Stream<int> getCountNotes(String uid) {
+    return notesCollection
+        .where("ownerId", isEqualTo: uid)
         .snapshots()
         .map((event) => event.docs.length);
   }
