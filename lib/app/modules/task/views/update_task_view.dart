@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:yo_task_managements/app/modules/home/controllers/home_controller.dart';
 import 'package:yo_task_managements/app/modules/task/controllers/task_controller.dart';
 
-import '../../../config/collection.dart';
 import '../../../config/helper.dart';
 import '../../../config/theme.dart';
 import '../../../data/models/task.dart';

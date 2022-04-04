@@ -6,9 +6,11 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:yo_task_managements/app/config/collection.dart';
 import 'package:yo_task_managements/app/config/upload.dart';
+import 'package:yo_task_managements/app/controllers/app_controller.dart';
 import 'package:yo_task_managements/app/modules/profile/controllers/profile_controller.dart';
 
 class UploadPhotoView extends GetView<ProfileController> {
+  final app = Get.find<AppController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +32,7 @@ class UploadPhotoView extends GetView<ProfileController> {
               controller.profile.update((val) {
                 val!.imageUrl = controller.imageUrl.value;
               });
+              app.profileModel.imageUrl = controller.imageUrl.value;
               await profileCollection
                   .doc(controller.profile.value.uid)
                   .update({"image_url": controller.imageUrl.value});

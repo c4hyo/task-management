@@ -1,14 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:yo_task_managements/app/config/collection.dart';
 import 'package:yo_task_managements/app/config/helper.dart';
 import 'package:yo_task_managements/app/config/theme.dart';
 import 'package:yo_task_managements/app/data/models/task.dart';
 import 'package:yo_task_managements/app/modules/home/controllers/home_controller.dart';
-import 'package:yo_task_managements/app/modules/home/views/home_view.dart';
 
 import '../controllers/task_controller.dart';
 

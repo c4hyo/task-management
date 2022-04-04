@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fluttericon/font_awesome_icons.dart';
 
 import 'package:get/get.dart';
-import 'package:yo_task_managements/app/config/collection.dart';
 import 'package:yo_task_managements/app/config/theme.dart';
 import 'package:yo_task_managements/app/controllers/app_controller.dart';
 import 'package:yo_task_managements/app/modules/profile/bindings/profile_binding.dart';

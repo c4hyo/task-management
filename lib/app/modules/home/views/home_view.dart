@@ -7,21 +7,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'package:yo_task_managements/app/config/collection.dart';
-import 'package:yo_task_managements/app/config/helper.dart';
 import 'package:yo_task_managements/app/config/theme.dart';
 import 'package:yo_task_managements/app/controllers/app_controller.dart';
 import 'package:yo_task_managements/app/data/models/task.dart';
 import 'package:yo_task_managements/app/modules/home/bindings/home_binding.dart';
 import 'package:yo_task_managements/app/modules/home/views/card_home_view.dart';
 import 'package:yo_task_managements/app/modules/home/views/home_date_view.dart';
-import 'package:yo_task_managements/app/modules/note/views/add_note_view.dart';
 import 'package:yo_task_managements/app/modules/task/bindings/task_binding.dart';
 import 'package:yo_task_managements/app/modules/task/views/detail_task_view.dart';
+import 'package:yo_task_managements/app/modules/task/views/list_task_view.dart';
 import 'package:yo_task_managements/app/routes/app_pages.dart';
 import 'package:yo_task_managements/app/widget/card_user.dart';
-import '../../note/bindings/note_binding.dart';
-import '../../profile/bindings/profile_binding.dart';
-import '../../profile/views/setting_profile_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -144,7 +140,7 @@ class HomeView extends GetView<HomeController> {
                               );
                             },
                             child: Text(
-                              "Calendar Taks",
+                              "Calendar Task",
                               style: TextStyle(color: primaryColor),
                             ),
                           ),
@@ -162,28 +158,42 @@ class HomeView extends GetView<HomeController> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Container(
-                              height: Get.size.height * 0.2,
-                              width: Get.size.height * 0.2,
-                              decoration: BoxDecoration(
-                                color: lightBackgroud,
-                                border: Border.all(
-                                  color: primaryColor,
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text("Task"),
-                                  Text(
-                                    controller.taskCount.value.toString(),
-                                    style: TextStyle(
-                                      fontSize: Get.height * 0.075,
+                            InkWell(
+                              onTap: () {
+                                Get.to(
+                                  () => ListTaskView(),
+                                  arguments: {"profile": app.profileModel},
+                                  binding: TaskBinding(),
+                                );
+                              },
+                              child: Container(
+                                height: Get.size.height * 0.2,
+                                width: Get.size.height * 0.2,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 0.2,
+                                      color: secondaryColor,
+                                      offset: Offset(4, 2),
                                     ),
-                                  ),
-                                  Text("View all"),
-                                ],
+                                  ],
+                                  color: lightBackgroud,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text("Task"),
+                                    Text(
+                                      controller.taskCount.value.toString(),
+                                      style: TextStyle(
+                                        fontSize: Get.height * 0.075,
+                                      ),
+                                    ),
+                                    Text("View all"),
+                                  ],
+                                ),
                               ),
                             ),
                             InkWell(
@@ -197,10 +207,15 @@ class HomeView extends GetView<HomeController> {
                                 height: Get.size.height * 0.2,
                                 width: Get.size.height * 0.2,
                                 decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 0.2,
+                                      color: secondaryColor,
+                                      offset: Offset(4, 2),
+                                    ),
+                                  ],
                                   color: lightBackgroud,
-                                  border: Border.all(
-                                    color: primaryColor,
-                                  ),
                                 ),
                                 child: Column(
                                   mainAxisAlignment:
