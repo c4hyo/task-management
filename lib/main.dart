@@ -9,12 +9,14 @@ import 'package:yo_task_managements/app/controllers/app_controller.dart';
 import 'package:yo_task_managements/app/modules/auth/views/auth_view.dart';
 import 'package:yo_task_managements/app/modules/home/views/home_view.dart';
 
+import 'app/controllers/bottom_navigation_controller.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   initializeDateFormatting();
+  Get.put(BottomNavigationController());
   runApp(MyApp());
 }
 

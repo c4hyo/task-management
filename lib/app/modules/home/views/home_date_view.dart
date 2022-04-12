@@ -1,20 +1,67 @@
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:yo_task_managements/app/controllers/app_controller.dart';
+import 'package:yo_task_managements/app/controllers/bottom_navigation_controller.dart';
 import 'package:yo_task_managements/app/modules/home/controllers/home_controller.dart';
 import '../../../config/theme.dart';
+import '../../../widget/card_user.dart';
 
 class HomeDateView extends GetView<HomeController> {
   // memanggil app controller di HomeDateView
   final app = Get.find<AppController>();
+  final btm = Get.find<BottomNavigationController>();
   @override
   Widget build(BuildContext context) {
     // memanggil fungsi getTimeline dari home controller
     controller.getTimeline(app.profileModel.uid!);
 
     return Scaffold(
+      bottomNavigationBar: ConvexAppBar(
+        style: TabStyle.flip,
+        backgroundColor: primaryColor,
+        height: Get.size.height * 0.075,
+        color: lightBackgroud,
+        activeColor: lightBackgroud,
+        items: [
+          TabItem(
+            icon: Icon(
+              Icons.calendar_today,
+              color: lightBackgroud,
+            ),
+            title: "Events",
+          ),
+          TabItem(
+            icon: Icon(
+              Icons.task,
+              color: lightBackgroud,
+            ),
+            title: "Task",
+          ),
+          TabItem(
+            icon: Icon(
+              Icons.home,
+              color: lightBackgroud,
+            ),
+            title: "Home",
+          ),
+          TabItem(
+            icon: Icon(
+              Icons.note,
+              color: lightBackgroud,
+            ),
+            title: "Note",
+          ),
+          TabItem(
+            icon: profilePicture(app.profileModel.imageUrl),
+            title: "Profile",
+          ),
+        ],
+        initialActiveIndex: btm.initialPage.value,
+        onTap: (int i) => btm.changePage(i, app.profileModel),
+      ),
       appBar: AppBar(
         centerTitle: true,
         title: Text("Task Schedule"),

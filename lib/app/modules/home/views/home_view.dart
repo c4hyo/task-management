@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttericon/linearicons_free_icons.dart';
@@ -9,6 +10,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:yo_task_managements/app/config/collection.dart';
 import 'package:yo_task_managements/app/config/theme.dart';
 import 'package:yo_task_managements/app/controllers/app_controller.dart';
+import 'package:yo_task_managements/app/controllers/bottom_navigation_controller.dart';
 import 'package:yo_task_managements/app/data/models/task.dart';
 import 'package:yo_task_managements/app/modules/home/bindings/home_binding.dart';
 import 'package:yo_task_managements/app/modules/home/views/card_home_view.dart';
@@ -22,6 +24,7 @@ import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   final app = Get.find<AppController>();
+  final btm = Get.find<BottomNavigationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +36,57 @@ class HomeView extends GetView<HomeController> {
     );
     return Obx(
       () => Scaffold(
+        bottomNavigationBar: ConvexAppBar(
+          style: TabStyle.flip,
+          backgroundColor: primaryColor,
+          height: Get.size.height * 0.075,
+          color: lightBackgroud,
+          activeColor: lightBackgroud,
+          items: [
+            TabItem(
+              icon: Icon(
+                Icons.calendar_today,
+                color: lightBackgroud,
+              ),
+              title: "Events",
+            ),
+            TabItem(
+              icon: Icon(
+                Icons.task,
+                color: lightBackgroud,
+              ),
+              title: "Task",
+            ),
+            TabItem(
+              icon: Icon(
+                Icons.home,
+                color: lightBackgroud,
+              ),
+              title: "Home",
+            ),
+            TabItem(
+              icon: Icon(
+                Icons.note,
+                color: lightBackgroud,
+              ),
+              title: "Note",
+            ),
+            TabItem(
+              icon: profilePicture(app.profileModel.imageUrl),
+              title: "Profile",
+            ),
+          ],
+          initialActiveIndex: btm.initialPage.value,
+          onTap: (int i) => btm.changePage(i, app.profileModel),
+        ),
         floatingActionButton: SpeedDial(
+          direction: SpeedDialDirection.down,
+          backgroundColor: lightBackgroud,
           animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(
+            color: primaryColor,
+          ),
           children: [
-            // SpeedDialChild(
-            //     child: Icon(LineariconsFree.user_1),
-            //     label: "Search Friend",
-            //     onTap: () =>
-            //         Get.toNamed(Routes.SEARCH, arguments: {"type": "friend"})),
-
             SpeedDialChild(
               child: Icon(LineariconsFree.enter),
               label: "Join task",
@@ -60,6 +105,7 @@ class HomeView extends GetView<HomeController> {
             ),
           ],
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
         appBar: AppBar(
           backgroundColor: primaryColor,
           title: Text(
@@ -69,22 +115,6 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
           centerTitle: false,
-          actions: [
-            Obx(
-              () => InkWell(
-                onTap: () {
-                  Get.toNamed(
-                    Routes.PROFILE,
-                    arguments: {"profile": app.profileModel},
-                  );
-                },
-                child: profilePicture(app.profileModel.imageUrl),
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-          ],
         ),
         body: ListView(
           children: [
@@ -136,7 +166,7 @@ class HomeView extends GetView<HomeController> {
                               Get.to(
                                 () => HomeDateView(),
                                 binding: HomeBinding(),
-                                transition: Transition.rightToLeftWithFade,
+                                transition: Transition.fadeIn,
                               );
                             },
                             child: Text(
@@ -158,79 +188,62 @@ class HomeView extends GetView<HomeController> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            InkWell(
-                              onTap: () {
-                                Get.to(
-                                  () => ListTaskView(),
-                                  arguments: {"profile": app.profileModel},
-                                  binding: TaskBinding(),
-                                );
-                              },
-                              child: Container(
-                                height: Get.size.height * 0.2,
-                                width: Get.size.height * 0.2,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 0.2,
-                                      color: secondaryColor,
-                                      offset: Offset(4, 2),
+                            Container(
+                              height: Get.size.height * 0.2,
+                              width: Get.size.height * 0.2,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 0.2,
+                                    color: secondaryColor,
+                                    offset: Offset(4, 2),
+                                  ),
+                                ],
+                                color: lightBackgroud,
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text("Task"),
+                                  Text(
+                                    controller.taskCount.value.toString(),
+                                    style: TextStyle(
+                                      fontSize: Get.height * 0.075,
                                     ),
-                                  ],
-                                  color: lightBackgroud,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text("Task"),
-                                    Text(
-                                      controller.taskCount.value.toString(),
-                                      style: TextStyle(
-                                        fontSize: Get.height * 0.075,
-                                      ),
-                                    ),
-                                    Text("View all"),
-                                  ],
-                                ),
+                                  ),
+                                  Text("View all"),
+                                ],
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(
-                                  Routes.NOTE,
-                                  arguments: {"profile": app.profileModel},
-                                );
-                              },
-                              child: Container(
-                                height: Get.size.height * 0.2,
-                                width: Get.size.height * 0.2,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 0.2,
-                                      color: secondaryColor,
-                                      offset: Offset(4, 2),
+                            Container(
+                              height: Get.size.height * 0.2,
+                              width: Get.size.height * 0.2,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 0.2,
+                                    color: secondaryColor,
+                                    offset: Offset(4, 2),
+                                  ),
+                                ],
+                                color: lightBackgroud,
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text("Notes"),
+                                  Text(
+                                    controller.notesCount.value.toString(),
+                                    style: TextStyle(
+                                      fontSize: Get.height * 0.075,
                                     ),
-                                  ],
-                                  color: lightBackgroud,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text("Notes"),
-                                    Text(
-                                      controller.notesCount.value.toString(),
-                                      style: TextStyle(
-                                        fontSize: Get.height * 0.075,
-                                      ),
-                                    ),
-                                    Text("View all"),
-                                  ],
-                                ),
+                                  ),
+                                  Text("View all"),
+                                ],
                               ),
                             ),
                           ],

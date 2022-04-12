@@ -6,15 +6,19 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:yo_task_managements/app/config/collection.dart';
 import 'package:yo_task_managements/app/config/theme.dart';
 import 'package:yo_task_managements/app/controllers/app_controller.dart';
+import 'package:yo_task_managements/app/controllers/bottom_navigation_controller.dart';
 import 'package:yo_task_managements/app/modules/home/controllers/home_controller.dart';
 import 'package:yo_task_managements/app/modules/profile/bindings/profile_binding.dart';
 import 'package:yo_task_managements/app/modules/profile/controllers/profile_controller.dart';
 import 'package:yo_task_managements/app/modules/profile/views/edit_profile_view.dart';
 import 'package:yo_task_managements/app/modules/profile/views/request_friend_view.dart';
 import 'package:yo_task_managements/app/modules/profile/views/upload_photo_view.dart';
+import 'package:yo_task_managements/app/routes/app_pages.dart';
+import 'package:yo_task_managements/main.dart';
 
 class SettingProfileView extends GetView<ProfileController> {
   final home = Get.find<HomeController>();
+  final btm = Get.find<BottomNavigationController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,9 +95,8 @@ class SettingProfileView extends GetView<ProfileController> {
                       auth.signOut();
                       Get.find<AppController>().resetProfile();
                       home.timeline.value = <Appointment>[];
-                      Get.back();
-                      Get.back();
-                      Get.back();
+                      btm.initialPage.value = 2;
+                      Get.offAll(() => WrapAuth());
                     },
                     child: Text("Yes"),
                   ),

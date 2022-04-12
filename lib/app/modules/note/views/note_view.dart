@@ -1,21 +1,68 @@
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:get/get.dart';
 import 'package:yo_task_managements/app/config/theme.dart';
+import 'package:yo_task_managements/app/controllers/bottom_navigation_controller.dart';
 import 'package:yo_task_managements/app/data/models/notes.dart';
 
+import '../../../widget/card_user.dart';
 import '../bindings/note_binding.dart';
 import '../controllers/note_controller.dart';
 import 'add_note_view.dart';
 
 class NoteView extends GetView<NoteController> {
+  final btm = Get.find<BottomNavigationController>();
   final title = TextEditingController();
   final description = TextEditingController();
   @override
   Widget build(BuildContext context) {
     controller.getListNote(controller.profilNote.value.uid!);
     return Scaffold(
+      bottomNavigationBar: ConvexAppBar(
+        style: TabStyle.flip,
+        backgroundColor: primaryColor,
+        height: Get.size.height * 0.075,
+        color: lightBackgroud,
+        activeColor: lightBackgroud,
+        items: [
+          TabItem(
+            icon: Icon(
+              Icons.calendar_today,
+              color: lightBackgroud,
+            ),
+            title: "Events",
+          ),
+          TabItem(
+            icon: Icon(
+              Icons.task,
+              color: lightBackgroud,
+            ),
+            title: "Task",
+          ),
+          TabItem(
+            icon: Icon(
+              Icons.home,
+              color: lightBackgroud,
+            ),
+            title: "Home",
+          ),
+          TabItem(
+            icon: Icon(
+              Icons.note,
+              color: lightBackgroud,
+            ),
+            title: "Note",
+          ),
+          TabItem(
+            icon: profilePicture(controller.profilNote.value.imageUrl),
+            title: "Profile",
+          ),
+        ],
+        initialActiveIndex: btm.initialPage.value,
+        onTap: (int i) => btm.changePage(i, controller.profilNote.value),
+      ),
       appBar: AppBar(
         title: Text('All Notes'),
         centerTitle: true,

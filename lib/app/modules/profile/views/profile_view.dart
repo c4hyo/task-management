@@ -1,3 +1,4 @@
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -6,10 +7,13 @@ import 'package:yo_task_managements/app/controllers/app_controller.dart';
 import 'package:yo_task_managements/app/modules/profile/bindings/profile_binding.dart';
 import 'package:yo_task_managements/app/modules/profile/views/setting_profile_view.dart';
 
+import '../../../controllers/bottom_navigation_controller.dart';
+import '../../../widget/card_user.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final loginProfile = Get.find<AppController>().profileModel;
+  final btm = Get.find<BottomNavigationController>();
   @override
   Widget build(BuildContext context) {
     controller.notesCount
@@ -20,6 +24,49 @@ class ProfileView extends GetView<ProfileController> {
         .bindStream(controller.getTaskPersonal(controller.profile.value.uid));
     return Obx(
       () => Scaffold(
+        bottomNavigationBar: ConvexAppBar(
+          style: TabStyle.flip,
+          backgroundColor: primaryColor,
+          height: Get.size.height * 0.075,
+          color: lightBackgroud,
+          activeColor: lightBackgroud,
+          items: [
+            TabItem(
+              icon: Icon(
+                Icons.calendar_today,
+                color: lightBackgroud,
+              ),
+              title: "Events",
+            ),
+            TabItem(
+              icon: Icon(
+                Icons.task,
+                color: lightBackgroud,
+              ),
+              title: "Task",
+            ),
+            TabItem(
+              icon: Icon(
+                Icons.home,
+                color: lightBackgroud,
+              ),
+              title: "Home",
+            ),
+            TabItem(
+              icon: Icon(
+                Icons.note,
+                color: lightBackgroud,
+              ),
+              title: "Note",
+            ),
+            TabItem(
+              icon: profilePicture(controller.profile.value.imageUrl),
+              title: "Profile",
+            ),
+          ],
+          initialActiveIndex: btm.initialPage.value,
+          onTap: (int i) => btm.changePage(i, loginProfile),
+        ),
         appBar: AppBar(
           elevation: 0,
         ),
@@ -28,7 +75,7 @@ class ProfileView extends GetView<ProfileController> {
           child: ListView(
             children: [
               Container(
-                height: Get.size.height * 0.5,
+                height: Get.size.height * 0.4,
                 width: Get.size.width,
                 child: controller.profile.value.imageUrl!.isEmpty
                     ? Center(
